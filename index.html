@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>For Someone Special ❤️</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    html,body{
+      height:100%;
+      font-family:'Montserrat',sans-serif;
+      overflow:hidden;
+      background:#000;
+      color:white;
+    }
+
+    body{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      position:relative;
+    }
+
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:linear-gradient(135deg,rgba(255,0,128,.2),rgba(0,0,0,.7));
+      z-index:0;
+      pointer-events:none;
+      transition:opacity 1s ease;
+    }
+    .overlay.overlay-active{
+      opacity:.85;
+      background:linear-gradient(135deg,rgba(255,0,128,.4),rgba(0,0,0,.8)); /* Slightly more intense */
+    }
+
+    body.pink-bg{
+      background:linear-gradient(45deg,#ffcce6,#ffb3d9,#ff99cc,#ff80bf);
+      background-size:400% 400%;
+      animation:gradientBG 15s ease infinite;
+    }
+
+    @keyframes gradientBG{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    /* ===== transitions ===== */
+    .fade-in-soft{
+      animation:fadeInSoft 1s ease forwards;
+    }
+    .fade-out-soft{
+      animation:fadeOutSoft .8s ease forwards;
+    }
+    @keyframes fadeInSoft{
+      from{opacity:0;transform:scale(.97)}
+      to{opacity:1;transform:scale(1)}
+    }
+    @keyframes fadeOutSoft{
+      from{opacity:1;transform:scale(1)}
+      to{opacity:0;transform:scale(.97)}
+    }
+
+    /* ===== name prompt ===== */
+    #namePrompt{
+      z-index:10;
+      background:rgba(0,0,0,.7);
+      padding:2rem;
+      border-radius:15px;
+      box-shadow:0 0 25px rgba(255,20,147,.5);
+      backdrop-filter:blur(5px);
+      text-align:center;
+      animation:fadeInSoft 1s ease forwards;
+    }
+
+    #namePrompt h2{
+      font-size:1.8rem;
+      background:linear-gradient(to right,#ff8a00,#e52e71);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    input{
+      margin-top:1rem;
+      padding:12px 20px;
+      font-size:1.2rem;
+      border-radius:30px;
+      border:none;
+      outline:none;
+      width:300px;
+      text-align:center;
+    }
+
+    button{
+      margin-top:1.5rem;
+      padding:12px 30px;
+      border-radius:30px;
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+      background:linear-gradient(45deg,#ff1493,#ff69b4);
+      color:white;
+      transition:.3s ease;
+    }
+
+    button:hover{
+      transform:translateY(-3px) scale(1.05);
+      box-shadow:0 0 25px #ff69b4;
+    }
+
+    /* ===== countdown ===== */
+    #countdown{
+      display:none;
+      flex-direction:column;
+      align-items:center;
+      z-index:10;
+    }
+
+    #timer{
+      font-family:'Dancing Script',cursive;
+      font-size:5rem;
+      color:#ff1493;
+      animation:pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse{
+      to{transform:scale(1.1)}
+    }
+
+    /* ===== message ===== */
+    #birthdayMessage{
+      display:none;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      background:rgba(0,0,0,.7);
+      padding:1.5rem;
+      border-radius:20px;
+      box-shadow:0 0 30px rgba(255,20,147,.6);
+      backdrop-filter:blur(5px);
+      z-index:10;
+    }
+
+    .line{
+      font-size:2.2rem;
+      opacity:0;
+      transform:translateY(40px);
+      animation:fadeInUp 1s ease forwards;
+      text-shadow:0 0 10px rgba(255,255,255,.6); /* Added text shadow */
+    }
+
+    .line:nth-child(1){animation-delay:.1s}
+    .line:nth-child(2){animation-delay:.2s}
+    .line:nth-child(3){animation-delay:.3s}
+    .line:nth-child(4){animation-delay:.4s}
+    .line:nth-child(5){animation-delay:.5s}
+    .line:nth-child(6){animation-delay:.6s}
+    .line:nth-child(7){animation-delay:.7s}
+
+    @keyframes fadeInUp{
+      to{opacity:1;transform:none}
+    }
+
+    .highlight{
+      background:linear-gradient(to right, #ffcc00, #ff00ff); /* More vibrant gradient */
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .nameStyle{
+      font-family:'Pacifico',cursive;
+      font-size:3rem;
+      color:#ff0033;
+      animation:pulseHeart 1.5s infinite;
+    }
+
+    @keyframes pulseHeart{
+      50%{transform:scale(1.1)}
+    }
+
+    .final-line{
+      margin-top:1.5rem;
+      font-style:italic;
+      text-shadow:0 0 10px rgba(255,255,255,.6); /* Added text shadow */
+      opacity:0;
+      animation:fadeInUp 1.5s forwards 2.8s;
+    }
+
+    .signature{
+      font-family:'Dancing Script',cursive;
+      text-shadow:0 0 10px rgba(255,255,255,.6); /* Added text shadow */
+      font-size:2rem;
+      margin-top:.8rem;
+      opacity:0;
+      animation:fadeInUp 1.5s forwards 3.5s;
+    }
+
+    /* ===== image reveal ===== */
+    #finalImage{
+      display:none;
+      margin-top:1.5rem;
+      animation:fadeInSoft 1.5s ease forwards;
+    }
+
+    #finalImage img{
+      max-width:260px;
+      border-radius:18px;
+      box-shadow:0 0 30px rgba(255,20,147,.6);
+    }
+
+    video.bg{
+      position:fixed;
+      inset:0;
+      object-fit:cover;
+      z-index:-2;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<!-- name -->
+<div id="namePrompt">
+  <h2>Enter your beautiful name ✨</h2>
+  <input id="recipientName" placeholder="Type your name here">
+  <button onclick="startCountdown()">Begin</button>
+</div>
+
+<!-- countdown -->
+<div id="countdown">
+  <h2>Hey <span id="nameDisplay"></span>…</h2>
+  <div id="timer">3</div>
+</div>
+
+<!-- message -->
+<div id="birthdayMessage">
+  <div class="line">Many more happy returns to the young lady</div>
+  <div class="line">with a smile that disarms</div>
+  <div class="line">and eyes that carry the power of <span class="highlight">kintsugi</span> —</div>
+  <div class="line">strength in beauty.</div>
+  <div class="line"><strong>Happy Birthday, <span class="nameStyle" id="dynamicName"></span></strong></div>
+  <div class="line">To the one whose laughter lingers</div>
+  <div class="line">long after the moment passes.</div>
+  <div class="final-line">May your day be as beautiful as the light you bring to others</div>
+  <div class="signature">With magic ✨</div>
+
+  <!-- FINAL IMAGE (YOU INSERT IMAGE HERE) -->
+  <div id="finalImage">
+    <img src="Happy Birthday.png" alt="A young woman wearing round glasses and a pink hair bow, smiling warmly at the camera with gold hoop earrings, against a soft blurred background. Text reads Happy Birthday below the photo.">
+  </div>
+</div>
+
+<video class="bg" autoplay muted loop>
+  <source src="https://assets.mixkit.co/videos/preview/mixkit-pink-and-blue-hearts-floating-1580-large.mp4">
+</video>
+
+<audio id="bgMusic" loop>
+  <source src="BGM.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function startCountdown(){
+  const name=recipientName.value.trim();
+  if(!name)return alert("Please enter your beautiful name!");
+
+  bgMusic.play().catch(()=>{});
+  document.body.classList.add('pink-bg');
+
+  namePrompt.classList.add('fade-out-soft');
+  setTimeout(()=>{
+    namePrompt.style.display='none';
+    countdown.style.display='flex';
+    countdown.classList.add('fade-in-soft');
+    nameDisplay.textContent=name;
+    dynamicName.textContent=`🎀 ${name.toUpperCase()} 🎀`;
+  },700);
+
+  let c=3;
+  const i=setInterval(()=>{
+    c--;
+    timer.textContent=c;
+    if(c<=0){
+      clearInterval(i);
+      countdown.classList.add('fade-out-soft');
+      setTimeout(()=>{
+        countdown.style.display='none';
+        birthdayMessage.style.display='flex';
+        birthdayMessage.classList.add('fade-in-soft');
+        document.querySelector('.overlay').classList.add('overlay-active');
+
+        // Trigger confetti
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#ffcce6', '#ffb3d9', '#ff99cc', '#ff80bf', '#ff69b4', '#ff1493']
+        });
+
+        // show image after message
+        setTimeout(() => {
+          document.getElementById('finalImage').style.display='block';
+        }, 5500); // Adjusted timing to appear after signature animation
+      },700);
+    }
+  },1000);
+}
+</script>
+
+</body>
+</html>
